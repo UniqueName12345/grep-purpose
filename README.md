@@ -42,6 +42,19 @@ pip install -r requirements.txt
 python src/main.py
 ```
 
+### Chat responses
+
+NPC dialogue uses the free Pollinations API. By default it posts to the
+OpenAI-compatible endpoint, but you can switch to the simpler GET API:
+
+```python
+from chat_service import ChatService
+service = ChatService(use_get=True)
+```
+
+This packs the persona and question into a single URL request like
+`https://text.pollinations.ai/{persona} Q: {question} A:`.
+
 ## 🪦 Why?
 
 Why not? Life's already hard enough—why not simulate it in 80x24 characters?
