@@ -32,6 +32,21 @@ At this early brainstorming stage, the goals are:
 - **License:** MIT
 - **Build System:** Probably CMake, eventually
 
+## 🔧 Building
+
+To build on Windows you'll need [CMake](https://cmake.org/) and a make tool.
+Install either the Visual Studio Build Tools (providing `nmake`) or MinGW
+(`mingw32-make`). Running `build.bat` will pick the appropriate generator if one
+of those tools is on your `PATH`.
+
+To force a different generator, set the `generator` environment variable before
+invoking the script:
+
+```cmd
+set generator=Unix Makefiles
+build.bat
+```
+
 ## 🪦 Why?
 
 Why not? Life's already hard enough—why not simulate it in 80x24 characters?
