@@ -1,23 +1,45 @@
-# Internal Design
+# INTERNALS.md
 
-This document outlines the main modules that make up **grep-purpose** and how they interact. It is intended for contributors who want a quick tour of the codebase.
+Welcome to the absolute mess that is **grep-purpose**'s internal design. This file exists so new contributors don’t have to grep the whole codebase just to figure out why their NPC is eating carpet instead of food.
 
-## Directory layout
+---
+
+## 🗂️ Directory Layout (A.K.A. “How We Organize Our Chaos”)
 
 - `src/`
-  - `main.py` – command line entry point. Sets up the simulation loop and handles user input.
-  - `simulation.py` – manages global time and updates all NPCs each tick.
-  - `npc.py` – defines the `NPC` class with basic needs, relationships and actions.
-  - `chat_service.py` – small client for the Pollinations text APIs used for NPC dialogue.
-  - `io_utils.py` – thin wrappers around `print` and `input` for possible future expansion.
+  - `main.py` – The command line bouncer. Sets up the simulation, runs the endless loop, and pretends to handle your input gracefully.
+  - `simulation.py` – The beating, caffeine-fueled heart. Advances time and makes all NPCs do their regrettable little routines each tick.
+  - `npc.py` – Home of the `NPC` class. Needs, relationships, actions—basically where your fake friends are born and slowly lose the will to live.
+  - `chat_service.py` – A glorified text generator. Talks to Pollinations text APIs so your NPCs can say things like “I am afraid” or “Why am I here?”
+  - `io_utils.py` – Wrappers around `print` and `input`. Someday we might need this abstraction. Today, it’s just here to look pretty.
 
-### NPC dialogue
+---
 
-NPC conversations rely on the free Pollinations API. By default `ChatService` posts to the OpenAI-compatible endpoint. You can switch to the simpler GET API:
+## 💬 NPC Dialogue (Or, “Why Is My Sim Quoting Schopenhauer?”)
+
+NPCs try to be relatable by talking to the [Pollinations API](https://text.pollinations.ai/). By default, `ChatService` uses the OpenAI-compatible endpoint, but if you enjoy living on the edge, you can use the jankier GET API:
 
 ```python
 from chat_service import ChatService
 service = ChatService(use_get=True)
+````
+
+This will squish both the persona and the burning question into a single GET request, like:
+
+```
+https://text.pollinations.ai/{persona} Q: {question} A: 
 ```
 
-This packs the persona and question into a single URL request like `https://text.pollinations.ai/{persona} Q: {question} A:`.
+It’s beautiful. It’s horrifying. Sometimes, it even works.
+
+---
+
+## 🚨 Important Design Notes
+
+* This is a C++ project in spirit, but the layout above is a fever dream of what a Python version *would* look like. Adjust accordingly, and try not to cry.
+* Anything not documented here is either “self-explanatory” or a complete mystery even to us.
+* If your NPC does something weird, blame `simulation.py`. That’s what we do.
+
+---
+
+Feel free to add your own modules, just don’t name them after real emotions.
