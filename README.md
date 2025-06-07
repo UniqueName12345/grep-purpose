@@ -44,5 +44,5 @@ You are free to fork, modify, and expand the project. You’re also free to regr
 
 ---
 
-> **Note:** This project is in the **pre-prototype** stage. No code has been written yet—this is purely a conceptual sandbox at the moment. Contributions to the design discussion are welcome, even if they're just "make the toilet break randomly."
+> **Note:** This project is in the **pre-prototype** stage. A small skeleton exists with an NPC class and simple build system. Contributions to the design discussion are still welcome, even if they're just "make the toilet break randomly."
 
