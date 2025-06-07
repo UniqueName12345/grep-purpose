@@ -2,7 +2,7 @@
 
 > ...where `ps aux` just lists your regrets.
 
-`grep-purpose` is a FOSS, terminal-only life simulator written in C++. Think *The Sims*, but stripped of all pretense, prettiness, and joy—just you, a shell, and a facsimile of existence that barely holds together. And yes, it will be MIT-licensed, because freedom includes the right to simulate a deeply mediocre life.
+`grep-purpose` is a FOSS, terminal-only life simulator written in Python. The project was ported from its original C++ skeleton to make hacking on it a bit easier. This comes at a cost: Python is slower than C++ since it is interpreted while C++ is compiled. Think *The Sims*, but stripped of all pretense, prettiness, and joy—just you, a shell, and a facsimile of existence that barely holds together. And yes, it will be MIT-licensed, because freedom includes the right to simulate a deeply mediocre life.
 
 ## 🧠 What *is* this?
 
@@ -27,24 +27,18 @@ At this early brainstorming stage, the goals are:
 
 ## 🛠️ Tech Stack (Planned)
 
-- **Language:** C++
-- **UI:** Terminal / TUI (likely ncurses or equivalent later on)
+- **Language:** Python
+- **UI:** Terminal / TUI (likely curses or equivalent later on)
 - **License:** MIT
-- **Build System:** Probably CMake, eventually
+- **Build System:** None needed
 
-## 🔧 Building
+## 🔧 Running
 
-To build on Windows you'll need [CMake](https://cmake.org/) and a make tool.
-Install either the Visual Studio Build Tools (providing `nmake`) or MinGW
-(`mingw32-make`). Running `build.bat` will pick the appropriate generator if one
-of those tools is on your `PATH`.
+The simulator no longer needs a separate build step. With Python installed,
+simply run:
 
-To force a different generator, set the `generator` environment variable before
-invoking the script:
-
-```cmd
-set generator=Unix Makefiles
-build.bat
+```bash
+python src/main.py
 ```
 
 ## 🪦 Why?
@@ -59,5 +53,5 @@ You are free to fork, modify, and expand the project. You’re also free to regr
 
 ---
 
-> **Note:** This project is in the **pre-prototype** stage. A small skeleton exists with an NPC class and simple build system. Contributions to the design discussion are still welcome, even if they're just "make the toilet break randomly."
+> **Note:** This project is in the **pre-prototype** stage. A small Python skeleton exists with an NPC class. Contributions to the design discussion are still welcome, even if they're just "make the toilet break randomly."
 
