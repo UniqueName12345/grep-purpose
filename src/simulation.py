@@ -16,13 +16,12 @@ class Simulation:
             self.hour = 0
             self.day += 1
         from io_utils import fprint
-        import random
 
         for npc in list(self.npcs):
+            before_alive = npc.alive
             npc.tick()
-            if npc.alive and random.random() < 0.05:
-                npc.die()
-                fprint(f"{npc.name} died in a tragic collision!")
+            if before_alive and not npc.alive:
+                fprint(f"{npc.name} starved to death!")
                 self.npcs = [n for n in self.npcs if n.alive]
 
     def time_str(self) -> str:

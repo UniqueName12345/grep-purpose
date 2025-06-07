@@ -1,7 +1,8 @@
 class NPC:
-    def __init__(self, name: str, age: int):
+    def __init__(self, name: str, age: int, persona: str = ""):
         self.name = name
         self.age = age
+        self.persona = persona
         # Basic needs
         self.hunger = 0
         self.energy = 100
@@ -18,6 +19,8 @@ class NPC:
         self.hunger = min(100, self.hunger + 10)
         self.energy = max(0, self.energy - 5)
         self.social = max(0, self.social - 2)
+        if self.hunger >= 100:
+            self.die()
 
     def eat(self) -> None:
         """Restore some hunger."""
@@ -31,8 +34,8 @@ class NPC:
         """Mark NPC as dead permanently."""
         self.alive = False
 
-    def talk_to(self, other: "NPC") -> None:
-        """Improve relationship with another NPC and get a generated reply."""
+    def talk_to(self, other: "NPC", question: str) -> None:
+        """Ask another NPC a question and show their persona-based answer."""
         from io_utils import fprint
         import requests
 
@@ -45,7 +48,7 @@ class NPC:
         self.social = min(100, self.social + 10)
 
         fprint(f"{other.name} is thinking...")
-        prompt = f"Say something to {self.name}."
+        prompt = f"{other.persona}\nQ: {question}\nA:"
         try:
             resp = requests.post(
                 "https://text.pollinations.ai/openai",
