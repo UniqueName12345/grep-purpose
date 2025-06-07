@@ -15,8 +15,14 @@ class Simulation:
         if self.hour >= 24:
             self.hour = 0
             self.day += 1
-        for npc in self.npcs:
+        from io_utils import fprint
+
+        for npc in list(self.npcs):
+            before_alive = npc.alive
             npc.tick()
+            if before_alive and not npc.alive:
+                fprint(f"{npc.name} starved to death!")
+                self.npcs = [n for n in self.npcs if n.alive]
 
     def time_str(self) -> str:
         return f"Day {self.day} Hour {self.hour:02d}"

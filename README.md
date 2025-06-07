@@ -34,10 +34,11 @@ At this early brainstorming stage, the goals are:
 
 ## 🔧 Running
 
-The simulator no longer needs a separate build step. With Python installed,
-simply run:
+The simulator no longer needs a separate build step. Install dependencies and
+run:
 
 ```bash
+pip install -r requirements.txt
 python src/main.py
 ```
 
