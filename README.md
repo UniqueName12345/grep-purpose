@@ -44,16 +44,8 @@ python src/main.py
 
 ### Chat responses
 
-NPC dialogue uses the free Pollinations API. By default it posts to the
-OpenAI-compatible endpoint, but you can switch to the simpler GET API:
-
-```python
-from chat_service import ChatService
-service = ChatService(use_get=True)
-```
-
-This packs the persona and question into a single URL request like
-`https://text.pollinations.ai/{persona} Q: {question} A:`.
+NPCs can hold short conversations. See `INTERNALS.md` for details on how
+the Pollinations API powers these exchanges.
 
 ## 🪦 Why?
 
