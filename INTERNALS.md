@@ -17,12 +17,18 @@ Welcome to the absolute mess that is **grep-purpose**'s internal design. This fi
 
 ## 💬 NPC Dialogue (Or, “Why Is My Sim Quoting Schopenhauer?”)
 
-NPCs try to be relatable by talking to the [Pollinations API](https://text.pollinations.ai/). By default, `ChatService` uses the OpenAI-compatible endpoint, but if you enjoy living on the edge, you can use the jankier GET API:
+NPCs try to be relatable by talking to the [Pollinations API](https://text.pollinations.ai/). The simpler GET API is now the default because the OpenAI-compatible endpoint is a bit broken. If you want to try the OpenAI flavor anyway, pass `use_get=False` or toggle it in the TUI settings:
 
 ```python
 from chat_service import ChatService
-service = ChatService(use_get=True)
-````
+service = ChatService()  # uses the GET API by default
+```
+
+Need to feel brave? Use the OpenAI endpoint instead:
+
+```python
+service = ChatService(use_get=False)
+```
 
 This will squish both the persona and the burning question into a single GET request, like:
 

@@ -16,7 +16,7 @@ def main() -> None:
         fprint("\n" + sim.time_str())
         for n in sim.npcs:
             fprint(n.describe())
-        cmd = finput("[a]dvance, [t]alk, [e]at, [s]leep, [q]uit > ").strip().lower()
+        cmd = finput("[a]dvance, [t]alk, [e]at, [s]leep, [o]ptions, [q]uit > ").strip().lower()
         if cmd == "a":
             sim.tick()
         elif cmd == "t":
@@ -35,6 +35,16 @@ def main() -> None:
         elif cmd == "s":
             player.sleep()
             sim.tick()
+        elif cmd == "o":
+            choice = finput("Use GET API or OpenAI? [g/o] > ").strip().lower()
+            if choice == "g":
+                chat_service.use_get = True
+                fprint("Using GET API.")
+            elif choice == "o":
+                chat_service.use_get = False
+                fprint("Using OpenAI-compatible API.")
+            else:
+                fprint("Invalid option.")
         elif cmd == "q":
             break
         else:
