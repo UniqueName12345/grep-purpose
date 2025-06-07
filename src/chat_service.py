@@ -6,7 +6,7 @@ class ChatService:
         endpoint: str = "https://text.pollinations.ai/openai",
         model: str = "openai-large",
         timeout: int = 5,
-        use_get: bool = False,
+        use_get: bool = True,
     ):
         self.endpoint = endpoint
         self.model = model
