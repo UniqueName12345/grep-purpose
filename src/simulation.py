@@ -1,10 +1,11 @@
 class Simulation:
     """Simple world state handling time progression and NPC updates."""
 
-    def __init__(self):
+    def __init__(self, collision_probability: float = 0.05):
         self.hour = 0
         self.day = 0
         self.npcs = []
+        self.collision_probability = collision_probability
 
     def add_npc(self, npc):
         self.npcs.append(npc)
@@ -18,19 +19,27 @@ class Simulation:
         from io_utils import fprint
         import random
 
-        if len(self.npcs) >= 2 and random.random() < 0.05:
-            a, b = random.sample(self.npcs, 2)
+        death_messages = []
+
+        alive_npcs = [n for n in self.npcs if n.alive]
+        if len(alive_npcs) >= 2 and random.random() < self.collision_probability:
+            a, b = random.sample(alive_npcs, 2)
             a.die()
             b.die()
-            fprint(f"{a.name} collided with {b.name} and they both died!")
+            death_messages.append(
+                f"{a.name} collided with {b.name} and they both died!"
+            )
 
-        for npc in list(self.npcs):
+        for npc in self.npcs:
             before_alive = npc.alive
             npc.tick()
             if before_alive and not npc.alive:
-                fprint(f"{npc.name} starved to death!")
+                death_messages.append(f"{npc.name} starved to death!")
 
         self.npcs = [n for n in self.npcs if n.alive]
+
+        for msg in death_messages:
+            fprint(msg)
 
     def time_str(self) -> str:
         return f"Day {self.day} Hour {self.hour:02d}"
