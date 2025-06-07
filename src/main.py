@@ -5,8 +5,8 @@ from io_utils import fprint, finput
 
 def main() -> None:
     sim = Simulation()
-    player = NPC("Player", 25)
-    friend = NPC("Jamie", 28)
+    player = NPC("Player", 25, "A confused human trying to make sense of life.")
+    friend = NPC("Jamie", 28, "A friendly but quirky neighbor who loves trivia.")
     sim.add_npc(player)
     sim.add_npc(friend)
 
@@ -21,7 +21,8 @@ def main() -> None:
             target_name = finput("Talk to who? ")
             target = next((n for n in sim.npcs if n.name.lower() == target_name.lower()), None)
             if target and target is not player:
-                player.talk_to(target)
+                question = finput("What do you ask? ")
+                player.talk_to(target, question)
                 sim.tick()
                 fprint(f"You talked to {target.name}.")
             else:
