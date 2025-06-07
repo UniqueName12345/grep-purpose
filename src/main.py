@@ -1,6 +1,6 @@
 from npc import NPC
 from simulation import Simulation
-from io_utils import fprint, finput
+from io_utils import fprint, finput, cls
 from chat_service import ChatService
 
 
@@ -13,7 +13,8 @@ def main() -> None:
     sim.add_npc(friend)
 
     while True:
-        fprint("\n" + sim.time_str())
+        cls()
+        fprint(sim.time_str())
         for n in sim.npcs:
             fprint(n.describe())
         cmd = finput("[a]dvance, [t]alk, [e]at, [s]leep, [o]ptions, [q]uit > ").strip().lower()
