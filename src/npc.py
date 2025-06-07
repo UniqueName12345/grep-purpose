@@ -1,19 +1,26 @@
 class NPC:
-    def __init__(self, name: str, age: int):
+    def __init__(self, name: str, age: int, persona: str = ""):
         self.name = name
         self.age = age
+        self.persona = persona
         # Basic needs
         self.hunger = 0
         self.energy = 100
         self.social = 50
         # Relationships with other NPCs by name
         self.relationships = {}
+        # Alive state for permadeath
+        self.alive = True
 
     def tick(self) -> None:
         """Simulate the passage of time for this NPC."""
+        if not self.alive:
+            return
         self.hunger = min(100, self.hunger + 10)
         self.energy = max(0, self.energy - 5)
         self.social = max(0, self.social - 2)
+        if self.hunger >= 100:
+            self.die()
 
     def eat(self) -> None:
         """Restore some hunger."""
@@ -23,15 +30,35 @@ class NPC:
         """Restore energy."""
         self.energy = min(100, self.energy + 40)
 
-    def talk_to(self, other: "NPC") -> None:
-        """Improve relationship with another NPC."""
+    def die(self) -> None:
+        """Mark NPC as dead permanently."""
+        self.alive = False
+
+    def talk_to(self, other: "NPC", question: str, chat_service=None) -> None:
+        """Ask another NPC a question and show their persona-based answer."""
+        from io_utils import fprint
+        from chat_service import ChatService
+
+        if not self.alive or not other.alive:
+            return
+
         if other.name not in self.relationships:
             self.relationships[other.name] = 0
         self.relationships[other.name] += 5
         self.social = min(100, self.social + 10)
 
+        fprint(f"{other.name} is thinking...")
+
+        if chat_service is None:
+            chat_service = ChatService()
+
+        message = chat_service.ask(other.persona, question)
+        fprint(f"{other.name}: {message}")
+
     def describe(self) -> str:
         """Return a short description of the NPC's current state."""
+        if not self.alive:
+            return f"{self.name} is dead."
         return (
             f"{self.name} ({self.age}) - "
             f"hunger:{self.hunger}% energy:{self.energy}% social:{self.social}%"
