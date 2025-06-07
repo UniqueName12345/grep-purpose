@@ -34,10 +34,10 @@ class NPC:
         """Mark NPC as dead permanently."""
         self.alive = False
 
-    def talk_to(self, other: "NPC", question: str) -> None:
+    def talk_to(self, other: "NPC", question: str, chat_service=None) -> None:
         """Ask another NPC a question and show their persona-based answer."""
         from io_utils import fprint
-        import requests
+        from chat_service import ChatService
 
         if not self.alive or not other.alive:
             return
@@ -48,20 +48,11 @@ class NPC:
         self.social = min(100, self.social + 10)
 
         fprint(f"{other.name} is thinking...")
-        prompt = f"{other.persona}\nQ: {question}\nA:"
-        try:
-            resp = requests.post(
-                "https://text.pollinations.ai/openai",
-                json={"model": "openai-large", "prompt": prompt},
-                timeout=5,
-            )
-            if resp.ok:
-                data = resp.json()
-                message = data.get("choices", [{}])[0].get("text", "...").strip()
-            else:
-                message = "..."
-        except Exception:
-            message = "..."
+
+        if chat_service is None:
+            chat_service = ChatService()
+
+        message = chat_service.ask(other.persona, question)
         fprint(f"{other.name}: {message}")
 
     def describe(self) -> str:
