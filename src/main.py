@@ -4,6 +4,17 @@ from io_utils import fprint, finput, cls
 from chat_service import ChatService
 
 
+def log_action(chat_service: ChatService, npc: NPC, action: str) -> None:
+    """Generate a log line via Pollinations and append to log.txt."""
+    prompt = (
+        f"Write one short sentence describing how {npc.name} {action}. "
+        f"Stats: hunger {npc.hunger} energy {npc.energy} social {npc.social} money {npc.money}."
+    )
+    line = chat_service.ask(npc.persona or "Narrator", prompt)
+    with open("log.txt", "a", encoding="utf-8") as log_file:
+        log_file.write(line + "\n")
+
+
 def main() -> None:
     sim = Simulation()
     chat_service = ChatService()
@@ -20,6 +31,7 @@ def main() -> None:
         cmd = finput("[a]dvance, [t]alk, [e]at, [s]leep, [o]ptions, [q]uit > ").strip().lower()
         if cmd == "a":
             sim.tick()
+            log_action(chat_service, player, "watched time pass")
         elif cmd == "t":
             target_name = finput("Talk to who? ")
             target = next((n for n in sim.npcs if n.name.lower() == target_name.lower()), None)
@@ -28,14 +40,17 @@ def main() -> None:
                 player.talk_to(target, question, chat_service)
                 sim.tick()
                 fprint(f"You talked to {target.name}.")
+                log_action(chat_service, target, f"chatted with {player.name}")
             else:
                 fprint("No such NPC.")
         elif cmd == "e":
             player.eat()
             sim.tick()
+            log_action(chat_service, player, "ate")
         elif cmd == "s":
             player.sleep()
             sim.tick()
+            log_action(chat_service, player, "slept")
         elif cmd == "o":
             choice = finput("Use GET API or OpenAI? [g/o] > ").strip().lower()
             if choice == "g":
