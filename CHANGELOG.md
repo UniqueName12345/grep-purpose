@@ -5,9 +5,13 @@
 
 ---
 
-## v0.6.13-alpha~regret@caffeine  
-### #13 - Add NPC money and new places  
+## v0.6.13-alpha~regret@caffeine
+### #13 - Add NPC money and new places
 NPCs now live in a hell-economy. Money is tracked. Places exist. Both are probably meaningless.
+
+## v0.6.14-alpha~logger@waiting
+### #14 - Block until API log line
+Every user action now triggers a Pollinations GET call that writes a short narrative line to `log.txt`. The game waits for this line before asking for the next command.
 
 ## v0.6.12-alpha~confusion@fridaynight  
 ### #12 - Add settings to switch APIs  
