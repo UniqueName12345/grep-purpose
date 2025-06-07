@@ -1,5 +1,6 @@
 from npc import NPC
 from simulation import Simulation
+from io_utils import fprint, finput
 
 
 def main() -> None:
@@ -10,21 +11,21 @@ def main() -> None:
     sim.add_npc(friend)
 
     while True:
-        print("\n" + sim.time_str())
+        fprint("\n" + sim.time_str())
         for n in sim.npcs:
-            print(n.describe())
-        cmd = input("[a]dvance, [t]alk, [e]at, [s]leep, [q]uit > ").strip().lower()
+            fprint(n.describe())
+        cmd = finput("[a]dvance, [t]alk, [e]at, [s]leep, [q]uit > ").strip().lower()
         if cmd == "a":
             sim.tick()
         elif cmd == "t":
-            target_name = input("Talk to who? ")
+            target_name = finput("Talk to who? ")
             target = next((n for n in sim.npcs if n.name.lower() == target_name.lower()), None)
             if target and target is not player:
                 player.talk_to(target)
                 sim.tick()
-                print(f"You talked to {target.name}.")
+                fprint(f"You talked to {target.name}.")
             else:
-                print("No such NPC.")
+                fprint("No such NPC.")
         elif cmd == "e":
             player.eat()
             sim.tick()
@@ -34,7 +35,7 @@ def main() -> None:
         elif cmd == "q":
             break
         else:
-            print("Invalid command.")
+            fprint("Invalid command.")
 
 
 if __name__ == "__main__":
