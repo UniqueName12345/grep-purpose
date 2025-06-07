@@ -61,3 +61,5 @@ You are free to fork, modify, and expand the project. You’re also free to regr
 
 > **Note:** This project is in the **pre-prototype** stage. A small Python skeleton exists with an NPC class. Contributions to the design discussion are still welcome, even if they're just "make the toilet break randomly."
 
+NPCs now carry a small stash of money and wander between simple places like a park, mall, or fast food joint. It's barebones, but enough to watch them fritter away their cash in the name of socialization.
+

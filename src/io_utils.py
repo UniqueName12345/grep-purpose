@@ -9,3 +9,10 @@ def fprint(*args, **kwargs):
 def finput(prompt: str = "") -> str:
     """Wrapper around built-in input for future enhancements."""
     return input(prompt)
+
+
+def cls() -> None:
+    """Clear the terminal screen."""
+    import os
+
+    os.system("cls" if os.name == "nt" else "clear")
